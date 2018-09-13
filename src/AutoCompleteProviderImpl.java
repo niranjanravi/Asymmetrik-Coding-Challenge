@@ -1,5 +1,8 @@
 import java.util.*;
 
+/**
+ * Implementation of the provided AutoCompleteProvider interface
+ */
 public class AutoCompleteProviderImpl implements AutoCompleteProvider {
 
     private PrefixTree prefixes;

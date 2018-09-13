@@ -1,13 +1,18 @@
 import java.util.*;
 
+/**
+ * Tree-based data structure that stores each character as a separate node
+ */
 public class PrefixTree {
 
-    // A tree node represents a fragment of a word, and maps to other possible words formed from the fragment
+    /**
+     * Represents a single node in the tree. Each node represents the string of characters up to that node
+     */
     public class TreeNode{
         private String prefix;
         private HashMap<Character, TreeNode> children;
         private int confidence; // represents the number of times a word appears in the training data
-        private boolean isWordEnd; // true if "prefix" is a full word
+        private boolean isWordEnd; // true if it's a full word
 
         public TreeNode(String s){
             prefix = s;
@@ -19,6 +24,10 @@ public class PrefixTree {
             this("");
         }
 
+        /**
+         * Adds a new node to the tree
+         * @param nextChar
+         */
         public void addLetter(char nextChar){
             if(!children.containsKey(nextChar)){
                 TreeNode child = new TreeNode(prefix + nextChar);
@@ -33,7 +42,10 @@ public class PrefixTree {
         root = new TreeNode();
     }
 
-    // Add a word to the prefix tree, increasing its confidence if it's the end of a word
+    /**
+     * Adds a word to the tree
+     * @param word The word to be added into the tree
+     */
     public void addWord(String word){
         TreeNode current = root;
         for(char letter : word.toCharArray()){
@@ -41,11 +53,19 @@ public class PrefixTree {
             current = current.children.get(letter);
         }
 
+        // Update the wordEnd and confidence fields
         current.isWordEnd = true;
         current.confidence++;
     }
 
+    /**
+     * Recursively look through the tree to find all words
+     * @param current The current node being looked at
+     * @param words The set of all full words that have been found, maintaining order based on confidence
+     */
     private void findFullWords(TreeNode current, TreeSet<Candidate> words){
+
+        // TreeSets maintain order, so adding it automatically sorts the candidates
         if(current.isWordEnd){
             words.add(new CandidateImpl(current.prefix, current.confidence));
         }
@@ -55,6 +75,11 @@ public class PrefixTree {
         }
     }
 
+    /**
+     * Gets a list of known words that start with the given prefix
+     * @param prefix The prefix
+     * @return A list of words and their corresponding confidences
+     */
     public List<Candidate> getKnownWords(String prefix){
         TreeSet<Candidate> words = new TreeSet<>();
 
@@ -70,6 +95,7 @@ public class PrefixTree {
 
         findFullWords(start, words);
 
+        // convert the TreeSet back into a list
         return new LinkedList<>(words);
     }
 }

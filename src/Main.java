@@ -2,6 +2,9 @@ import java.util.Scanner;
 
 public class Main {
 
+    /**
+     * Display the help message
+     */
     private static void displayHelp(){
         System.out.println();
         System.out.println("Enter data to train or a prefix to guess the autocompletion of words");
@@ -12,6 +15,9 @@ public class Main {
         System.out.println();
     }
 
+    /**
+     * Run the REPL
+     */
     public static void main(String[] args){
         AutoCompleteProviderImpl provider = new AutoCompleteProviderImpl();
         Scanner userInput = new Scanner(System.in);

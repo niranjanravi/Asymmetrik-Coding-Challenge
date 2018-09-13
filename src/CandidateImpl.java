@@ -1,5 +1,8 @@
 import java.util.Comparator;
 
+/**
+ * Stores a word and its confidence
+ */
 public class CandidateImpl implements Candidate, Comparable<Candidate> {
 
     private String word;
@@ -29,6 +32,11 @@ public class CandidateImpl implements Candidate, Comparable<Candidate> {
     }
 
 
+    /**
+     * Compares the confidence first, and then compares the words
+     * @param o The candidate to compare the current candidate to
+     * @return
+     */
     @Override
     public int compareTo(Candidate o) {
         if(o.getConfidence() != confidence){
